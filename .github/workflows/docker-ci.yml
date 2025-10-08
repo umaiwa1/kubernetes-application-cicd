@@ -40,5 +40,4 @@ jobs:
 
     - name: Deploy to Minikube
       run: |
-        # kubectl set image deployment/node-app simple-node-app=umaiwa9/simple-node-app:latest
         kubectl apply -f ./k8s/deployment.yaml
