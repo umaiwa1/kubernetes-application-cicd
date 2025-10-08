@@ -41,6 +41,7 @@ jobs:
     - name: Deploy to Minikube
       run: |
         kubectl apply -f ./k8s/deployment.yaml
+        kubectl rollout restart deployment node-app
 
     - name: Port Forward App (Local Only)
       run: |
