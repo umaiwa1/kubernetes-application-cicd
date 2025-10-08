@@ -44,4 +44,4 @@ jobs:
 
     - name: Port Forward App (Local Only)
       run: |
-        nohup kubectl port-forward svc/node-app 3000:3000 --address=0.0.0.0 > port-forward.log 2>&1 &
+        kubectl port-forward svc/node-app 3000:3000 --address=0.0.0.0
