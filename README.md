@@ -1,83 +1,41 @@
+![act-logo](https://raw.githubusercontent.com/wiki/nektos/act/img/logo-150.png)
 
-# CI/CD Pipeline with Docker and GitHub Actions
+# Overview [![push](https://github.com/nektos/act/workflows/push/badge.svg?branch=master&event=push)](https://github.com/nektos/act/actions) [![Go Report Card](https://goreportcard.com/badge/github.com/nektos/act)](https://goreportcard.com/report/github.com/nektos/act) [![awesome-runners](https://img.shields.io/badge/listed%20on-awesome--runners-blue.svg)](https://github.com/jonico/awesome-runners)
 
+> "Think globally, `act` locally"
 
+Run your [GitHub Actions](https://developer.github.com/actions/) locally! Why would you want to do this? Two reasons:
 
-## Objective   
-Build a CI/CD pipeline using Docker and GitHub Actions for a simple Node.js application. The pipeline should:
+- **Fast Feedback** - Rather than having to commit/push every time you want to test out the changes you are making to your `.github/workflows/` files (or for any changes to embedded GitHub actions), you can use `act` to run the actions locally. The [environment variables](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables#default-environment-variables) and [filesystem](https://help.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners#filesystems-on-github-hosted-runners) are all configured to match what GitHub provides.
+- **Local Task Runner** - I love [make](<https://en.wikipedia.org/wiki/Make_(software)>). However, I also hate repeating myself. With `act`, you can use the GitHub Actions defined in your `.github/workflows/` to replace your `Makefile`!
 
-1- Build a Docker image for the application.  
-2- Run automated tests in a Docker container.  
-3- Push the image to Docker Hub.
-## Requirements
-Docker installed
+> [!TIP]
+> **Now Manage and Run Act Directly From VS Code!**<br/>
+> Check out the [GitHub Local Actions](https://sanjulaganepola.github.io/github-local-actions-docs/) Visual Studio Code extension which allows you to leverage the power of `act` to run and test workflows locally without leaving your editor.
 
-GitHub account for repository management
+# How Does It Work?
 
-Docker Hub account for image storage
+When you run `act` it reads in your GitHub Actions from `.github/workflows/` and determines the set of actions that need to be run. It uses the Docker API to either pull or build the necessary images, as defined in your workflow files and finally determines the execution path based on the dependencies that were defined. Once it has the execution path, it then uses the Docker API to run containers for each action based on the images prepared earlier. The [environment variables](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables#default-environment-variables) and [filesystem](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#file-systems) are all configured to match what GitHub provides.
 
-- Dockerize a simple Node.js app.
-- Use GitHub Actions to:
-	- Build the Docker image on every push to the main branch.
-	- Run unit tests inside a container.
-	- Push the image to Docker Hub.
-- Use Docker Compose to define the services.
-- Include a Dockerfile with multi-stage builds.
-## How project Works
-- Create a basic Node.js app with an API that responds to requests.
+Let's see it in action with a [sample repo](https://github.com/cplee/github-actions-demo)!
 
-- Use Jest to check if everything works correctly.
+![Demo](https://raw.githubusercontent.com/wiki/nektos/act/quickstart/act-quickstart-2.gif)
 
-- Package the app in a Docker container so it runs the same way everywhere.
+# Act User Guide
 
-- Automate with GitHub Actions: Whenever push new code on GitHub, GitHub Actions:
+Please look at the [act user guide](https://nektosact.com) for more documentation.
 
-  Builds a new Docker image.
+# Support
 
-  Runs the tests automatically.
+Need help? Ask in [discussions](https://github.com/nektos/act/discussions)!
 
-  Pushes the image to Docker Hub if everything is fine.
-## Features
+# Contributing
 
-- A simple Express.js API with a /status endpoint.
+Want to contribute to act? Awesome! Check out the [contributing guidelines](CONTRIBUTING.md) to get involved.
 
-- Unit tests using Jest.
+## Manually building from source
 
-- Multi-stage Dockerfile for optimized builds.
-
-- GitHub Actions workflow to automate building, testing, and pushing the Docker image.
-
-- Docker Compose for local deployment with a single command.
-
-
-## Folder Structure
-docker-cicd/  
-│── backend/    
-│   ├── Dockerfile  
-│   ├── app.js  
-│   ├── package.json  
-│   ├──  tests/                 
-│── .github/workflows/        
-│   ├── docker-ci.yml  
-│── docker-compose.yml  
-│── README.md  
-## Application run
-First i run the project locally through docker-compose  
-
-first build the images through  
-
-    "sudo docker-compose up --build"  
-and then run container through  
-
-    "sudo docker-compose up"  
-our project is in running condition on local system 
- 
- After running on local system push the all code to the git hub and when code will push on the github workflows will automatically trigger and do all steps that are in the dockerfile basically build the image of the docekrfile and push that image to the dockerhub.
-
-
-
-## 🔗 Links to get help
-- [(https://levelup.gitconnected.com/automate-your-node-js-app-ci-cd-with-github-actions-and-docker-4f12a7cc231e)](https://levelup.gitconnected.com/automate-your-node-js-app-ci-cd-with-github-actions-and-docker-4f12a7cc231e)
-- [(https://www.innovect.com/automating-cicd-with-github-actions-and-docker-for-a-nodejs-express-app)](https://www.innovect.com/automating-cicd-with-github-actions-and-docker-for-a-nodejs-express-app)
-- [(https://www.freecodecamp.org/news/learn-continuous-integration-delivery-and-deployment/)](https://www.freecodecamp.org/news/learn-continuous-integration-delivery-and-deployment/)
-
+- Install Go tools 1.20+ - (<https://golang.org/doc/install>)
+- Clone this repo `git clone git@github.com:nektos/act.git`
+- Run unit tests with `make test`
+- Build and install: `make install`
