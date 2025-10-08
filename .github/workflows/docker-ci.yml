@@ -41,3 +41,7 @@ jobs:
     - name: Deploy to Minikube
       run: |
         kubectl apply -f ./k8s/deployment.yaml
+
+    - name: Port Forward App (Local Only)
+      run: |
+        nohup kubectl port-forward svc/node-app 3000:3000 > port-forward.log 2>&1 &
