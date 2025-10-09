@@ -4,11 +4,10 @@ const express = require('express');
 const app = express();
 
 // envs se variables lo
-const port = process.env.PORT;
-const statusMessage = process.env.STATUS_MESSAGE;
+const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-    res.json({ status: statusMessage });
+    res.json({ status: process.env.STATUS });
 });
 
 if (require.main === module) {
