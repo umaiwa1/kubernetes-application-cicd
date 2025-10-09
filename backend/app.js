@@ -1,17 +1,20 @@
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 
-const port = process.env.PORT || 3000;
+// envs se variables lo
+const port = process.env.PORT;
+const statusMessage = process.env.STATUS_MESSAGE;
 
 app.get('/', (req, res) => {
-    res.json({ status: 'OK App is Running and working3' });
+    res.json({ status: statusMessage });
 });
 
 if (require.main === module) {
     app.listen(port, () => {
-        console.log(`App listening at http://localhost:${port}`);
+        console.log(`✅ App listening at http://localhost:${port}`);
     });
 }
 
-// Export the app for testing purposes
 module.exports = app;
