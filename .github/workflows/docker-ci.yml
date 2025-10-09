@@ -17,7 +17,7 @@ jobs:
       uses: docker/setup-buildx-action@v2
 
     - name: Build Docker Image
-      run: docker build -t umaiwa9/simple-node-app ./backend
+      run: docker build -t umaiwa9/simple-node-app:latest ./backend
 
     - name: Push Docker Image to Docker Hub
       run: |
@@ -37,12 +37,10 @@ jobs:
         mkdir -p $HOME/.kube
         echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > $HOME/.kube/config
         kubectl config use-context minikube
-
+        
     - name: Deploy to Minikube
       run: |
         kubectl apply -f ./k8s/deployment.yaml
+        kubectl apply -f ./k8s/service.yaml
         kubectl rollout restart deployment node-app
-
-    - name: Port Forward App (Local Only)
-      run: |
-        kubectl port-forward svc/node-app 3000:3000 --address=0.0.0.0 &
+        kubectl rollout status deployment node-app
