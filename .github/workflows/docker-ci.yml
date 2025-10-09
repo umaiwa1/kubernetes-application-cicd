@@ -16,6 +16,14 @@ jobs:
     - name: Set up Docker
       uses: docker/setup-buildx-action@v2
 
+    - name: Create .env file from secrets
+      run: |
+        mkdir -p ./backend
+        touch ./backend/.env
+        echo "PORT=${{ secrets.PORT }}" >> ./backend/.env
+        echo "STATUS_MESSAGE=${{ secrets.STATUS_MESSAGE }}" >> ./backend/.env
+
+
     - name: Build Docker Image
       run: docker build -t umaiwa9/simple-node-app:latest ./backend
 
@@ -37,8 +45,9 @@ jobs:
         mkdir -p $HOME/.kube
         echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > $HOME/.kube/config
         kubectl config use-context minikube
-        
+
     - name: Deploy to Minikube
+
       run: |
         kubectl apply -f ./k8s/deployment.yaml
         kubectl apply -f ./k8s/service.yaml
