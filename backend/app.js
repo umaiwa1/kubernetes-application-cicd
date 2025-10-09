@@ -1,10 +1,10 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 
 const express = require('express');
 const app = express();
 
 // envs se variables lo
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 app.get('/', (req, res) => {
     res.json({ status: process.env.STATUS_MESSAGE });
