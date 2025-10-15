@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-app-config
+data:
+  PORT: "3000"
+  STATUS_MESSAGE: "App running via ConfigMap version1"

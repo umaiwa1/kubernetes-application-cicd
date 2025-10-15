@@ -18,3 +18,13 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: node-app-config
+        volumeMounts:
+        - name: app-storage
+          mountPath: /usr/src/app/data
+      volumes:
+      - name: app-storage
+        persistentVolumeClaim:
+          claimName: node-app-pvc
